@@ -11,3 +11,7 @@ You  can also run same docker-compose.yml file to start container in swarm (work
    
 Note : again if  you are runnning in swarm stack , cureenty i am assuming that you are running all container on Manager(Leader) , you can change node constraint in same docker-compose if you want to run on workers or other managers.
 
+## service and db discovery : 
+to make double check , you can change "Hello world" text to new text in DB and just refresh browser. postgrsql query to update text is :
+> update MESSAGE set MESSAGE_TEXT = 'ENTER NEW TEXT HERE';
+
