@@ -1,0 +1,57 @@
+## This docker-compose will work in both docker-swarm mode,
+## like $docker stack deploy 
+## and without swarm mode with swarm enable or disable ,
+## like $docker-compose up
+
+
+version: "3"
+services:
+
+# defining databse service , using cutomize postgresql image "relayr_assignment_postgresql:round1"
+ postgres:
+    image: relayr/assignment-db:r1
+    container_name: postgres
+    hostname: postgres  # hostname of postgres container , can use directly in swarm network
+    ports:
+      - "5432"  # Docker Container Port
+    networks:
+       - local_lan
+# defining environment variables for database setup
+    environment:   
+      POSTGRES_USER: "assignment_user"
+      POSTGRES_PASSWORD: "assignment_password"
+      POSTGRES_DB: "assignment"
+    
+    deploy:
+        placement:
+          constraints: [node.role == manager]
+
+
+
+ app:
+   image: relayr/assignment-app:r1
+   container_name: app
+   hostname: hello_world
+   ports:
+     - 8080:8080
+   networks:
+     - local_lan
+## accesing database "assignment" (connection with database done), discovering with service name or hostname (service discovery done)
+   environment:
+      POSTGRES_URL: "jdbc:postgresql://postgres:5432/assignment"
+      POSTGRES_USER: "assignment_user"
+      POSTGRES_PASSWORD: "assignment_password"
+   depends_on:
+        - postgres
+   restart: always
+   deploy:
+     restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 10s
+     placement:
+        constraints: [node.role == manager]
+
+networks:
+  local_lan:
