@@ -18,3 +18,5 @@ to make double check , you can change "Hello world" text to new text in DB and j
 
 
 IF you required application backend code as well then please confirm i can upload the same. i hope jar and config file should be suffiucent.
+
+## Service bootstram time is 10 sec , please browse http://127.0.0.1:8080 after bootstrap time(10 sec).
