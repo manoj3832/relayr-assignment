@@ -9,7 +9,7 @@ services:
 
 # defining databse service , using cutomize postgresql image "relayr_assignment_postgresql:round1"
  postgres:
-    image: relayr/assignment-db:r1
+    image: 123501/relayr_assignment_db:r1
     container_name: postgres
     hostname: postgres  # hostname of postgres container , can use directly in swarm network
     ports:
@@ -29,7 +29,7 @@ services:
 
 
  app:
-   image: relayr/assignment-app:r1
+   image: 123501/relayr_assignment_app:r1
    container_name: app
    hostname: hello_world
    ports:
@@ -43,7 +43,6 @@ services:
       POSTGRES_PASSWORD: "assignment_password"
    depends_on:
         - postgres
-   restart: always
    deploy:
      restart_policy:
         condition: on-failure
